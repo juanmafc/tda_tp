@@ -4,10 +4,53 @@ public class Main {
     public static void main(String[] args){
         System.out.println("Hello World");
 
+        /*
         pruebaGrafo1();
         pruebaGrafo2();
         pruebaGrafo3();
+        */
 
+        pruebaDFS1();
+
+    }
+
+    private static void pruebaDFS1() {
+        GrafoDirigido grafo = new GrafoDirigido(8);
+
+        grafo.agregarArista(0, 1);
+        grafo.agregarArista(0, 2);
+
+        grafo.agregarArista(1, 0);
+        grafo.agregarArista(1, 2);
+        grafo.agregarArista(1, 3);
+        grafo.agregarArista(1, 4);
+
+
+        grafo.agregarArista(2, 0);
+        grafo.agregarArista(2, 1);
+        grafo.agregarArista(2, 4);
+        grafo.agregarArista(2, 6);
+        grafo.agregarArista(2, 7);
+
+        grafo.agregarArista(3, 1);
+        grafo.agregarArista(3, 4);
+
+        grafo.agregarArista(4, 1);
+        grafo.agregarArista(4, 2);
+        grafo.agregarArista(4, 3);
+        grafo.agregarArista(4, 5);
+
+        grafo.agregarArista(5, 4);
+
+        grafo.agregarArista(6, 2);
+        grafo.agregarArista(6, 7);
+
+        grafo.agregarArista(7, 2);
+        grafo.agregarArista(7, 6);
+
+
+        DFS dfs = new DFS(grafo);
+        dfs.printearDFS();
     }
 
 
