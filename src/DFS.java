@@ -13,6 +13,16 @@ public class DFS {
     //private Set<Integer> verticesVisitados = new HashSet<>();
 
     public DFS(GrafoDirigido grafo) {
+        this.inicializarDFS(grafo);
+
+        for (int v = 0; v < this.grafo.getCantidadVertices(); v++) {
+            if (!this.verticeVisitado[v]){
+                this.analizar(v);
+            }
+        }
+    }
+
+    private void inicializarDFS(GrafoDirigido grafo) {
         this.grafo = grafo;
         int cantidadDeVertices = grafo.getCantidadVertices();
 
@@ -28,16 +38,17 @@ public class DFS {
             this.tiempoDescubierto[v] = -1;
             this.tiempoFinalizacion[v] = -1;
         }
-
-
         this.tiempo = 0;
-        for (int v = 0; v < cantidadDeVertices; v++) {
+    }
 
+    public DFS(GrafoDirigido grafoTraspuesto, Stack<Integer> stackVertices) {
+        this.inicializarDFS(grafoTraspuesto);
+
+        for (Integer v : stackVertices) {
             if (!this.verticeVisitado[v]){
                 this.analizar(v);
             }
         }
-
     }
 
     private void analizar(int vertice) {

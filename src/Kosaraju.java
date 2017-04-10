@@ -16,8 +16,8 @@ public class Kosaraju {
 
         DFS primerDFS = new DFS(grafo);
         GrafoDirigido grafoTraspuesto = grafo.getGrafoTraspuesto();
-        Stack<Integer> listaFinalizacion = primerDFS.getStackDeFinalizacion();
-        //DFS segundoDFS = new DFS(grafoTraspuesto);//new DFS(grafoTraspuesto, listaFinalizacion??????);
+        Stack<Integer> stackFinalizacion = primerDFS.getStackDeFinalizacion();
+        DFS segundoDFS = new DFS(grafoTraspuesto, stackFinalizacion );
     }
 
     /**
