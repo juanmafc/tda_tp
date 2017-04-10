@@ -7,12 +7,15 @@ public class Main {
         pruebaGrafo2();
         pruebaGrafo3();
 */
+/*
         pruebaGrafoTraspuesto1();
         pruebaGrafoTraspuesto2();
-
-/*
-        pruebaDFS1();
 */
+
+//        pruebaDFS1();
+//        pruebaDFS2();
+        pruebaDFS3();
+
     }
 
     private static void pruebaGrafoTraspuesto2() {
@@ -68,6 +71,30 @@ public class Main {
         System.out.println("Grafo traspuesto");
         traspuesto.printGrafo();
     }
+
+
+    private static void pruebaDFS3() {
+        GrafoDirigido grafo = new GrafoDirigido(5);
+
+        grafo.agregarArista(0,1);
+        grafo.agregarArista(1,2);
+        grafo.agregarArista(1,3);
+        grafo.agregarArista(2,0);
+        grafo.agregarArista(3,4);
+
+
+        DFS dfs = new DFS(grafo);
+        dfs.printearDFS();
+        System.out.println("Stack de finalizacion" + dfs.getStackDeFinalizacion() );
+    }
+
+    private static void pruebaDFS2() {
+        GrafoDirigido grafo = new GrafoDirigido(1);
+
+        DFS dfs = new DFS(grafo);
+        dfs.printearDFS();
+    }
+
 
     private static void pruebaDFS1() {
         GrafoDirigido grafo = new GrafoDirigido(8);
