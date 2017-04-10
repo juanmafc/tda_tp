@@ -1,12 +1,12 @@
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Set;
+import java.util.*;
 
 public class DFS {
 
     private boolean[] verticeVisitado;
     private int[] predecesor;
     private int[] tiempoDescubierto;
+    private int[] tiempoFinalizacion;
+    private Stack<Integer> verticesTerminados;
     int tiempo;
 
     private GrafoDirigido grafo;
@@ -16,14 +16,17 @@ public class DFS {
         this.grafo = grafo;
         int cantidadDeVertices = grafo.getCantidadVertices();
 
-        this.verticeVisitado = new boolean[cantidadDeVertices ];
+        this.verticeVisitado = new boolean[cantidadDeVertices];
         this.predecesor = new int[cantidadDeVertices];
         this.tiempoDescubierto = new int[cantidadDeVertices];
+        this.tiempoFinalizacion = new int[cantidadDeVertices];
+        this.verticesTerminados = new Stack<>();
 
         for (int v = 0; v < cantidadDeVertices; v++) {
             this.verticeVisitado[v] = false;
             this.predecesor[v] = -1;
             this.tiempoDescubierto[v] = -1;
+            this.tiempoFinalizacion[v] = -1;
         }
 
 
@@ -49,6 +52,10 @@ public class DFS {
                 this.analizar(verticeAdyacente);
             }
         }
+        this.tiempo++;
+        this.tiempoFinalizacion[vertice] = this.tiempo;
+        //Se van agregando en orden de finalizacion (primero que termina, primero que se agrega), al final el ultimo en finalizar queda primero en el stack
+        this.verticesTerminados.push(vertice);
     }
 
 
@@ -57,4 +64,7 @@ public class DFS {
         System.out.println(this.predecesor);
     }
 
+    public Stack<Integer> getStackDeFinalizacion() {
+        return this.verticesTerminados;
+    }
 }
