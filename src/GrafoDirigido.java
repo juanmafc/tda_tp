@@ -41,4 +41,24 @@ public class GrafoDirigido {
         return this.aristas[vertice];
     }
 
+
+    public  GrafoDirigido getGrafoTraspuesto() {
+        GrafoDirigido complemento = new GrafoDirigido(this.getCantidadVertices());
+
+        for (int u = 0; u < this.getCantidadVertices(); u++) {
+            for (int v : this.aristas[u] ) {
+                complemento.agregarArista(v, u);
+            }
+        }
+        return complemento;
+    }
+
+    public void printGrafo() {
+        System.out.println("Vertices: " + this.getCantidadVertices());
+        System.out.println("Aristas: " + this.getCantidadAristas());
+        for (int i = 0; i < this.getCantidadVertices(); i++) {
+            System.out.println(i + "-->" + this.getVerticesAdyacentesA(i));
+        }
+    }
+
 }
