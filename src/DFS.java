@@ -60,6 +60,9 @@ public class DFS {
     }
 
     private void analizar(int vertice) {
+
+        int cantidadHijos = 0;
+
         this.verticeVisitado[vertice] = true;
         //TODO: agregar vertice a los arboles DFSs
         this.tiempo++;
@@ -68,9 +71,17 @@ public class DFS {
 
         for (int verticeAdyacente : this.grafo.getVerticesAdyacentesA(vertice) ) {
             if ( !this.verticeVisitado[verticeAdyacente] ) {
+
+                cantidadHijos++; //si el vertice adyacente no fue visitado entonces pasa a ser un hijo de vertice
+
                 this.predecesor[verticeAdyacente] = vertice;
                 this.analizar(verticeAdyacente);
                 this.nivelMasBajo[vertice] = Math.min(this.nivelMasBajo[vertice], this.nivelMasBajo[verticeAdyacente]);
+
+                //si es raiz y tiene mas de un hijo --> es pto de articulacion
+                if ( ( this.predecesor[vertice] == -1)  && ( cantidadHijos > 1)   ) {
+                    this.puntosDeArticulacion.add(vertice);
+                }
 
                 if ( ( this.nivelMasBajo[verticeAdyacente] >= this.tiempoDescubierto[vertice]) &&
                      ( this.predecesor[vertice] != -1) ) { //O sea, y NO es raiz del arbol DFS
@@ -84,6 +95,8 @@ public class DFS {
 
             }
         }
+
+
         this.tiempo++;
         this.tiempoFinalizacion[vertice] = this.tiempo;
         //Se van agregando en orden de finalizacion (primero que termina, primero que se agrega), al final el ultimo en finalizar queda primero en el stack

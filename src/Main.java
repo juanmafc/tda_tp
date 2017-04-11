@@ -18,10 +18,21 @@ public class Main {
         pruebaDFS3();
 */
 
-        //TODO: ¿que pasa si el grafo no es conexo?
+        //TODO: que pasa si el grafo no es conexo?
         pruebaPtoArt1();
         pruebaPtoArt2();
         pruebaPtoArt3();
+        pruebaPtoArt4();
+    }
+
+    private static void pruebaPtoArt4() {
+        GrafoNoDirigido grafo = new GrafoNoDirigido(3);
+
+        grafo.agregarArista(0,1);
+        grafo.agregarArista(0,2);
+
+        DFS dfs = new DFS(grafo);
+        System.out.println("Ptos de articulacion (0) " + dfs.getPuntosDeArticulacion());
     }
 
     private static void pruebaPtoArt3() {
