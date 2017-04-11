@@ -1,15 +1,11 @@
-import javafx.util.Pair;
-
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
+
 
 public class GrafoDirigido {
 
-    private int cantidadVertices;
-
-    private LinkedList<Integer>[] aristas;
-    private int cantidadAristas;
+    protected int cantidadVertices;
+    protected LinkedList<Integer>[] aristas;
+    protected int cantidadAristas;
 
 
     public GrafoDirigido(int cantidadVertices) {
@@ -18,7 +14,7 @@ public class GrafoDirigido {
         this.aristas = new LinkedList[cantidadVertices];
 
         for (int i = 0; i < cantidadVertices; i++) {
-            this.aristas[i] = new LinkedList<Integer>();
+            this.aristas[i] = new LinkedList<>();
         }
 
     }
