@@ -22,7 +22,7 @@ public class Tarjan {
         this.inicializar(grafo);
 
         for (int v = 0; v < this.grafo.getCantidadVertices(); v++) {
-            if (!this.verticeVisitado[v]){
+            if (!this.verticeVisitado[v]) {
                 this.analizar(v);
             }
         }
