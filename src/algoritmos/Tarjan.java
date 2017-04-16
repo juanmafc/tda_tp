@@ -75,7 +75,7 @@ public class Tarjan {
                 }
 
                 if ( ( this.nivelMasBajo[verticeAdyacente] >= this.tiempoDescubierto[vertice]) &&
-                        ( this.predecesor[vertice] != -1) ) { //O sea, y NO es raiz del arbol algoritmos.DFS
+                        ( this.predecesor[vertice] != -1) ) { //O sea, y NO es raiz del arbol DFS
                     this.puntosDeArticulacion.add(vertice);
                 }
             }

@@ -3,21 +3,16 @@ package algoritmos;
 public class Main {
 
     public static void main(String[] args){
-/*
+
         pruebaGrafo1();
         pruebaGrafo2();
         pruebaGrafo3();
-*/
-/*
+
+
         pruebaGrafoTraspuesto1();
         pruebaGrafoTraspuesto2();
-*/
 
-/*
-        pruebaDFS1();
-        pruebaDFS2();
-        pruebaDFS3();
-*/
+
 
 
         pruebaPtoArt1();
@@ -28,13 +23,13 @@ public class Main {
 
 
 
-/*
+
         pruebaCFC1();
         pruebaCFC2();
         pruebaCFC3();
         pruebaCFC4();
         pruebaCFC5();
-*/
+
     }
 
 
@@ -247,69 +242,6 @@ public class Main {
         grafo.printGrafo();
         System.out.println("Grafo traspuesto");
         traspuesto.printGrafo();
-    }
-
-
-    private static void pruebaDFS3() {
-        GrafoDirigido grafo = new GrafoDirigido(5);
-
-        grafo.agregarArista(0,1);
-        grafo.agregarArista(1,2);
-        grafo.agregarArista(1,3);
-        grafo.agregarArista(2,0);
-        grafo.agregarArista(3,4);
-
-
-        DFS dfs = new DFS(grafo);
-        dfs.printearDFS();
-        System.out.println("Stack de finalizacion" + dfs.getStackDeFinalizacion() );
-    }
-
-    private static void pruebaDFS2() {
-        GrafoDirigido grafo = new GrafoDirigido(1);
-
-        DFS dfs = new DFS(grafo);
-        dfs.printearDFS();
-    }
-
-
-    private static void pruebaDFS1() {
-        GrafoDirigido grafo = new GrafoDirigido(8);
-
-        grafo.agregarArista(0, 1);
-        grafo.agregarArista(0, 2);
-
-        grafo.agregarArista(1, 0);
-        grafo.agregarArista(1, 2);
-        grafo.agregarArista(1, 3);
-        grafo.agregarArista(1, 4);
-
-
-        grafo.agregarArista(2, 0);
-        grafo.agregarArista(2, 1);
-        grafo.agregarArista(2, 4);
-        grafo.agregarArista(2, 6);
-        grafo.agregarArista(2, 7);
-
-        grafo.agregarArista(3, 1);
-        grafo.agregarArista(3, 4);
-
-        grafo.agregarArista(4, 1);
-        grafo.agregarArista(4, 2);
-        grafo.agregarArista(4, 3);
-        grafo.agregarArista(4, 5);
-
-        grafo.agregarArista(5, 4);
-
-        grafo.agregarArista(6, 2);
-        grafo.agregarArista(6, 7);
-
-        grafo.agregarArista(7, 2);
-        grafo.agregarArista(7, 6);
-
-
-        DFS dfs = new DFS(grafo);
-        dfs.printearDFS();
     }
 
 
