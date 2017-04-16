@@ -1,9 +1,16 @@
 package algoritmos;
 
+import javafx.util.Pair;
+
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Created by User on 15/04/2017.
  */
 public class AsignacionGenerica {
+
+    List<Pair<Integer, Integer>> asignaciones;
 
 
     /*
@@ -74,5 +81,23 @@ public class AsignacionGenerica {
                 System.out.print(mujeres[i][j] + "  ");
             }
         }
+
+
+        MatrimoniosEstables matrimonios = new MatrimoniosEstables(hombres, mujeres);
+        List<Pair<Integer, Integer>> compromisos = matrimonios.getCompromisos();
+
+        this.asignaciones = new LinkedList<>();
+
+        for (Pair<Integer, Integer> compromiso : compromisos) {
+            this.asignaciones.add(new Pair<>(compromiso.getKey(), traduccionMujerAHospital[compromiso.getValue()]) );
+        }
+
+        System.out.println();
+        System.out.println("Asignaciones:");
+        System.out.println(this.getAsignaciones());
+    }
+
+    public List<Pair<Integer, Integer>> getAsignaciones() {
+        return this.asignaciones;
     }
 }
