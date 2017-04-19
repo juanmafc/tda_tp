@@ -1,6 +1,7 @@
 package algoritmos;
 
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Set;
 import java.util.Stack;
 
@@ -59,7 +60,8 @@ public class Tarjan {
 
         for (int v = 0; v < this.grafo.getCantidadVertices(); v++) {
             if (!this.verticeVisitado[v]) {
-                this.analizar(v);
+                //this.analizar(v);
+                this.analizarIterativo(v);
             }
         }
 
@@ -69,14 +71,16 @@ public class Tarjan {
                 this.puntosDeArticulacion.add(vertice);
             }
         }
+
+        System.out.println("Final:");
+        this.printearPredecesores();
+        this.printearCantidadDeHijos();
+
     }
 
 
 
     private void analizar(int vertice) {
-        //TODO: AL PASARLO A ITERATIVO, LA CANTIDAD DE HIJOS VA A TENER QUE ESTAR AFUERA cantidadHijos[i]
-        int cantidadHijos = 0;
-
         this.verticeVisitado[vertice] = true;
 
         this.tiempo++;
@@ -84,12 +88,9 @@ public class Tarjan {
         this.low[vertice] = this.tiempoDescubierto[vertice];
 
 
-        //this.stackDFS.addAll( this.grafo.getVerticesAdyacentesA(vertice) );
 
 
         for (int verticeAdyacente : this.grafo.getVerticesAdyacentesA(vertice) ) {
-        //while (!this.stackDFS.empty()){
-            //int verticeAdyacente = this.stackDFS.pop();
 
             if ( !this.verticeVisitado[verticeAdyacente] ) {
 
@@ -111,6 +112,9 @@ public class Tarjan {
                 }
             }
             else {
+
+                //ACA ES DONDE CREO QUE TENGO QUE MOVER TODOS, AL LUGAR DE SI YA FUE VISITADO
+
                 if ( verticeAdyacente != this.predecesor[vertice] ) {
                     this.low[vertice] = Math.min(this.low[vertice], this.tiempoDescubierto[verticeAdyacente]);
                 }
@@ -121,7 +125,108 @@ public class Tarjan {
     }
 
 
+    private void analizarIterativo(int vertice) {
+        //Lo borro porque se visita cuando se saca del stack
+        //this.verticeVisitado[vertice] = true;
 
+
+
+        //El tiempo deberia ser el momoento en que fue pusheado al stack
+        this.tiempo++;
+        this.tiempoDescubierto[vertice] = this.tiempo;
+        this.low[vertice] = this.tiempoDescubierto[vertice];
+
+
+
+
+        int verticePredecesor = -1;
+
+        boolean[] verticeEntroAlStack = new boolean[this.grafo.getCantidadVertices()];
+        this.stackDFS.push(vertice);
+        verticeEntroAlStack[vertice] = true;
+
+        while (!this.stackDFS.empty()){
+            System.out.println(this.stackDFS);
+            verticePredecesor = this.stackDFS.peek();
+
+            LinkedList<Integer> verticesAdyacentes = this.grafo.getVerticesAdyacentesA(verticePredecesor);
+
+            if (!verticesAdyacentes.isEmpty()) {
+                if (!this.verticeVisitado[verticePredecesor]) {
+
+
+                    /* TODO: SUMAR CANTIDAD DE HIJOS NO VISITADOS
+                    //si el vertice adyacente no fue visitado entonces pasa a ser un hijo de vertice
+                    this.cantidadHijos[verticePredecesor]++;
+                    */
+
+                    //TODO: HACER QUE SE LLENE CORRECTAMENTE EL STACK DE VISITA
+
+                    for (int verticeAdyacente : verticesAdyacentes) {
+                        if (!verticeEntroAlStack[verticeAdyacente]) {
+                            this.stackDFS.push(verticeAdyacente);
+                            verticeEntroAlStack[verticeAdyacente] = true;
+                            this.predecesor[verticeAdyacente] = verticePredecesor;
+                            this.cantidadHijos[verticePredecesor]++;
+                        }
+                    }
+                    this.grafo.elimiarHijosDe(verticePredecesor);
+
+
+
+                    /* TODO: HACER QUE SE GUARDE EL menorLow POR CADA NODO
+                    this.low[verticePredecesor] = Math.min(this.low[verticePredecesor], this.low[verticeAdyacente]);
+
+                    if ( ( this.low[verticeAdyacente] >= this.tiempoDescubierto[vertice]) &&
+                            ( this.predecesor[verticePredecesor] != -1) ) { //O sea, y NO es raiz del arbol DFS
+                        this.puntosDeArticulacion.add(vertice);
+                    }
+                    */
+                } else {
+
+                    //ACA ES DONDE CREO QUE TENGO QUE MOVER TODOS, AL LUGAR DE SI YA FUE VISITADO
+
+                    /*TODO: ESTO SERIA AL MOMENTO DE DESAPILARLO PORQUE YA SE VISITO*/
+                    /*
+                    if ( verticeAdyacente != this.predecesor[vertice] ) {
+                        this.low[vertice] = Math.min(this.low[vertice], this.tiempoDescubierto[verticeAdyacente]);
+                    }
+                    */
+
+                }
+            }
+            else {
+                //Si no tiene hijos, entonces lo desapilo (y hago otras cosas)
+                this.stackDFS.pop();
+                this.printearPredecesores();
+                this.printearCantidadDeHijos();
+            }
+        }
+
+    }
+
+
+    public void printearPredecesores() {
+        System.out.print("Predecesores [ ");
+        for (int i = 0; i < this.grafo.getCantidadVertices(); i++ ) {
+            if ( this.predecesor[i] == -1 ){
+                System.out.print(i + "<-Raiz; ");
+            }
+            else {
+                System.out.print(i + "<-" + this.predecesor[i] + "; ");
+            }
+
+        }
+        System.out.println("]");
+    }
+
+    public void printearCantidadDeHijos() {
+        System.out.print("CantidadHijos [ ");
+        for (int i = 0; i < this.grafo.getCantidadVertices(); i++ ) {
+            System.out.print(i + ":" + this.cantidadHijos[i] + "; ");
+        }
+        System.out.println("]");
+    }
 
 
     /**

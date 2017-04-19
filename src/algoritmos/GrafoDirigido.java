@@ -59,4 +59,7 @@ public class GrafoDirigido {
         }
     }
 
+    public void elimiarHijosDe(int verticePredecesor) {
+        this.aristas[verticePredecesor] = new LinkedList<>();
+    }
 }
