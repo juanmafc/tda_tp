@@ -25,6 +25,7 @@ public class Tarjan {
 
 
     private Stack<Integer> stackDFS;
+    private int[] lowDeLosHijos;
 
 
     private void inicializar(GrafoNoDirigido grafo) {
@@ -38,6 +39,7 @@ public class Tarjan {
 
         this.puntosDeArticulacion = new HashSet<>();
         this.low = new int[cantidadDeVertices];
+        this.lowDeLosHijos = new int[cantidadDeVertices];
 
         this.stackDFS = new Stack<>();
 
@@ -66,15 +68,20 @@ public class Tarjan {
         }
 
         //si es raiz y tiene mas de un hijo --> es pto de articulacion
+        /*
         for (int vertice = 0; vertice < this.grafo.getCantidadVertices(); vertice++ ) {
             if ((this.predecesor[vertice] == -1) && (this.cantidadHijos[vertice] > 1)) {
                 this.puntosDeArticulacion.add(vertice);
             }
         }
+        */
 
+        /*
         System.out.println("Final:");
         this.printearPredecesores();
         this.printearCantidadDeHijos();
+        this.printearTiempoDescubiertoYLow();
+        */
 
     }
 
@@ -106,18 +113,27 @@ public class Tarjan {
 
                 this.low[vertice] = Math.min(this.low[vertice], this.low[verticeAdyacente]);
 
+                //si es raiz y tiene mas de un hijo --> es pto de articulacion
+                if ( ( this.predecesor[vertice] == -1)  && ( this.cantidadHijos[vertice] > 1)   ) {
+                    this.puntosDeArticulacion.add(vertice);
+                }
+
+
                 if ( ( this.low[verticeAdyacente] >= this.tiempoDescubierto[vertice]) &&
-                        ( this.predecesor[vertice] != -1) ) { //O sea, y NO es raiz del arbol DFS
+                     ( this.predecesor[vertice] != -1) ) { //O sea, y NO es raiz del arbol DFS
                     this.puntosDeArticulacion.add(vertice);
                 }
             }
             else {
+                //Si ese adyacente YA fue visitado, entonces me interesa comparar con su tiempoDescubierto
 
                 //ACA ES DONDE CREO QUE TENGO QUE MOVER TODOS, AL LUGAR DE SI YA FUE VISITADO
 
+                //Si el que saque es diferente al predecesor de del que estoy analizando
                 if ( verticeAdyacente != this.predecesor[vertice] ) {
                     this.low[vertice] = Math.min(this.low[vertice], this.tiempoDescubierto[verticeAdyacente]);
                 }
+
 
             }
         }
@@ -135,6 +151,7 @@ public class Tarjan {
         this.tiempo++;
         this.tiempoDescubierto[vertice] = this.tiempo;
         this.low[vertice] = this.tiempoDescubierto[vertice];
+        this.lowDeLosHijos[vertice] = this.tiempoDescubierto[vertice];
 
 
 
@@ -146,7 +163,7 @@ public class Tarjan {
         verticeEntroAlStack[vertice] = true;
 
         while (!this.stackDFS.empty()){
-            System.out.println(this.stackDFS);
+            //System.out.println(this.stackDFS);
             verticePredecesor = this.stackDFS.peek();
 
             LinkedList<Integer> verticesAdyacentes = this.grafo.getVerticesAdyacentesA(verticePredecesor);
@@ -162,6 +179,7 @@ public class Tarjan {
 
                     //TODO: HACER QUE SE LLENE CORRECTAMENTE EL STACK DE VISITA
 
+                    /*
                     for (int verticeAdyacente : verticesAdyacentes) {
                         if (!verticeEntroAlStack[verticeAdyacente]) {
                             this.stackDFS.push(verticeAdyacente);
@@ -171,6 +189,36 @@ public class Tarjan {
                         }
                     }
                     this.grafo.elimiarHijosDe(verticePredecesor);
+                    */
+
+
+                    int verticeAdyacente = verticesAdyacentes.pollFirst();
+                    if (!verticeEntroAlStack[verticeAdyacente]) {
+                        this.stackDFS.push(verticeAdyacente);
+
+                        this.tiempo++;
+                        this.tiempoDescubierto[verticeAdyacente] = this.tiempo;
+                        this.low[verticeAdyacente] = this.tiempoDescubierto[verticeAdyacente];
+                        this.lowDeLosHijos[verticeAdyacente] = this.tiempoDescubierto[verticeAdyacente];
+
+                        verticeEntroAlStack[verticeAdyacente] = true;
+                        this.predecesor[verticeAdyacente] = verticePredecesor;
+                        this.cantidadHijos[verticePredecesor]++;
+
+                        //TODO: lowDeLosHijos inicializado en MUCHO o con el tiempoDescubierto?
+                        this.lowDeLosHijos[verticePredecesor] = Math.min(this.lowDeLosHijos[verticePredecesor], this.tiempoDescubierto[verticeAdyacente]);
+                    }
+                    else {
+                        //this.low[vertice] = Math.min(this.low[vertice], this.low[verticeAdyacente]);
+
+                        //Si el que saque es diferente al predecesor del que estoy analizando y el adyacente YA entro en el stack
+                        if ( verticeAdyacente != this.predecesor[verticePredecesor] ) {
+                            this.low[verticePredecesor] = Math.min(this.low[verticePredecesor], this.tiempoDescubierto[verticeAdyacente]);
+                            //this.lowDeLosHijos[verticePredecesor] = Math.min(this.lowDeLosHijos[verticePredecesor], this.tiempoDescubierto[verticeAdyacente]);
+
+                        }
+                    }
+
 
 
 
@@ -197,13 +245,43 @@ public class Tarjan {
             }
             else {
                 //Si no tiene hijos, entonces lo desapilo (y hago otras cosas)
-                this.stackDFS.pop();
-                this.printearPredecesores();
-                this.printearCantidadDeHijos();
+
+                int verticeVisitado = this.stackDFS.pop();
+                this.verticeVisitado[verticeVisitado] = true; //Lo considero visitado cuando lo poppeo del stack
+
+                //this.low[verticePredecesor] = Math.min(this.low[verticePredecesor], this.lowDeLosHijos[verticePredecesor]);
+                if (this.predecesor[verticeVisitado] != -1 ) {
+                    this.low[this.predecesor[verticeVisitado]] = Math.min(this.low[verticeVisitado], this.low[this.predecesor[verticeVisitado]]);
+
+                    //if ( this.low[this.predecesor[verticePredecesor]] >= this.tiempoDescubierto[this.predecesor[verticePredecesor]]) {
+                    if ( (this.low[verticeVisitado] >= this.tiempoDescubierto[this.predecesor[verticeVisitado]]) &&
+                         ( ( this.predecesor[this.predecesor[verticeVisitado]] != -1) ) ) {
+                        this.puntosDeArticulacion.add(this.predecesor[verticeVisitado]);
+                    }
+                }
+                else {
+                    //Es raiz y tiene mas de un hijo
+                    if ( this.cantidadHijos[verticeVisitado] > 1 ) {
+                        this.puntosDeArticulacion.add(verticeVisitado);
+                    }
+
+                }
+
+                //this.printearPredecesores();
+                //this.printearCantidadDeHijos();
             }
         }
 
     }
+
+
+
+
+
+
+
+
+
 
 
     public void printearPredecesores() {
@@ -227,6 +305,16 @@ public class Tarjan {
         }
         System.out.println("]");
     }
+
+    public void printearTiempoDescubiertoYLow() {
+        System.out.print("TiempoDescubierto/Low [ ");
+        for (int i = 0; i < this.grafo.getCantidadVertices(); i++ ) {
+            System.out.print(i + ":" + this.tiempoDescubierto[i] + "/" + this.low[i] + "; ");
+        }
+        System.out.println("]");
+    }
+
+
 
 
     /**
