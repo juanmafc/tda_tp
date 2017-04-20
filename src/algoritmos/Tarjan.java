@@ -64,14 +64,6 @@ public class Tarjan {
                 this.DFSIterativo(v);
             }
         }
-
-        /*
-        System.out.println("Final:");
-        this.printearPredecesores();
-        this.printearCantidadDeHijos();
-        this.printearTiempoDescubiertoYLow();
-        */
-
     }
 
 
@@ -88,7 +80,7 @@ public class Tarjan {
         for (int verticeAdyacente : this.grafo.getVerticesAdyacentesA(vertice) ) {
 
             if ( !this.verticeVisitado[verticeAdyacente] ) {
-                
+
                 this.cantidadHijos[vertice]++; //si el vertice adyacente no fue visitado entonces pasa a ser un hijo de vertice
 
                 this.predecesor[verticeAdyacente] = vertice;
@@ -120,8 +112,9 @@ public class Tarjan {
     }
 
 
-    private void DFSIterativo(int vertice) {
 
+
+    private void DFSIterativo(int vertice) {
         //El tiempo es el momoento en que fue pusheado al stack
         this.tiempo++;
         this.tiempoDescubierto[vertice] = this.tiempo;
@@ -186,59 +179,7 @@ public class Tarjan {
                 }
             }
         }
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public void printearPredecesores() {
-        System.out.print("Predecesores [ ");
-        for (int i = 0; i < this.grafo.getCantidadVertices(); i++ ) {
-            if ( this.predecesor[i] == -1 ){
-                System.out.print(i + "<-Raiz; ");
-            }
-            else {
-                System.out.print(i + "<-" + this.predecesor[i] + "; ");
-            }
-
-        }
-        System.out.println("]");
-    }
-
-    public void printearCantidadDeHijos() {
-        System.out.print("CantidadHijos [ ");
-        for (int i = 0; i < this.grafo.getCantidadVertices(); i++ ) {
-            System.out.print(i + ":" + this.cantidadHijos[i] + "; ");
-        }
-        System.out.println("]");
-    }
-
-    public void printearTiempoDescubiertoYLow() {
-        System.out.print("TiempoDescubierto/Low [ ");
-        for (int i = 0; i < this.grafo.getCantidadVertices(); i++ ) {
-            System.out.print(i + ":" + this.tiempoDescubierto[i] + "/" + this.low[i] + "; ");
-        }
-        System.out.println("]");
-    }
-
-
-
-
-
-
-
 
 
     /**
