@@ -60,8 +60,8 @@ public class Tarjan {
 
         for (int v = 0; v < this.grafo.getCantidadVertices(); v++) {
             if (!this.verticeVisitado[v]) {
-                //this.analizar(v);
-                this.analizarIterativo(v);
+                this.DFSRecursivo(v);
+                this.DFSIterativo(v);
             }
         }
 
@@ -76,7 +76,7 @@ public class Tarjan {
 
 
 
-    private void analizar(int vertice) {
+    private void DFSRecursivo(int vertice) {
         this.verticeVisitado[vertice] = true;
 
         this.tiempo++;
@@ -93,7 +93,7 @@ public class Tarjan {
                 this.cantidadHijos[vertice]++; //si el vertice adyacente no fue visitado entonces pasa a ser un hijo de vertice
 
                 this.predecesor[verticeAdyacente] = vertice;
-                this.analizar(verticeAdyacente);
+                this.DFSRecursivo(verticeAdyacente);
                 this.low[vertice] = Math.min(this.low[vertice], this.low[verticeAdyacente]);
 
                 //si es raiz y tiene mas de un hijo --> es pto de articulacion
@@ -121,7 +121,7 @@ public class Tarjan {
     }
 
 
-    private void analizarIterativo(int vertice) {
+    private void DFSIterativo(int vertice) {
         //Lo borro porque se visita cuando se saca del stack
         //this.verticeVisitado[vertice] = true;
 
