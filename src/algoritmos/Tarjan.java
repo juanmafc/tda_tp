@@ -88,8 +88,7 @@ public class Tarjan {
         for (int verticeAdyacente : this.grafo.getVerticesAdyacentesA(vertice) ) {
 
             if ( !this.verticeVisitado[verticeAdyacente] ) {
-
-                //cantidadHijos++; //si el vertice adyacente no fue visitado entonces pasa a ser un hijo de vertice
+                
                 this.cantidadHijos[vertice]++; //si el vertice adyacente no fue visitado entonces pasa a ser un hijo de vertice
 
                 this.predecesor[verticeAdyacente] = vertice;
@@ -122,66 +121,65 @@ public class Tarjan {
 
 
     private void DFSIterativo(int vertice) {
-        //Lo borro porque se visita cuando se saca del stack
-        //this.verticeVisitado[vertice] = true;
 
-
-
-        //El tiempo deberia ser el momoento en que fue pusheado al stack
+        //El tiempo es el momoento en que fue pusheado al stack
         this.tiempo++;
         this.tiempoDescubierto[vertice] = this.tiempo;
         this.low[vertice] = this.tiempoDescubierto[vertice];
 
 
-        int verticePredecesor = -1;
+        int verticeAnalizado = -1;
 
-        boolean[] verticeEntroAlStack = new boolean[this.grafo.getCantidadVertices()];
         this.stackDFS.push(vertice);
-        verticeEntroAlStack[vertice] = true;
+        this.verticeVisitado[vertice] = true; //Lo considero visitado cuando entra al stack
 
         while (!this.stackDFS.empty()){
 
-            verticePredecesor = this.stackDFS.peek();
+            verticeAnalizado = this.stackDFS.peek();
+            LinkedList<Integer> verticesAdyacentes = this.grafo.getVerticesAdyacentesA(verticeAnalizado);
 
-            LinkedList<Integer> verticesAdyacentes = this.grafo.getVerticesAdyacentesA(verticePredecesor);
-
+            //Si tiene adyacentes, saco el primer adyacente
             if (!verticesAdyacentes.isEmpty()) {
                 int verticeAdyacente = verticesAdyacentes.pollFirst();
 
-                if (!verticeEntroAlStack[verticeAdyacente]) {
+                //Si el adyacente NO fue visitado lo pusheo al stack, e inicializo si tiempo, low y predecesor
+                //Ademas cuento a ese verticeAdyacente como hijo del verticeAnalizado (si el adyacente no fue visitado, el verticeAnalizado lo considera su hijo)
+                if (!this.verticeVisitado[verticeAdyacente]) {
                     this.stackDFS.push(verticeAdyacente);
+                    this.verticeVisitado[verticeAdyacente] = true;
 
                     this.tiempo++;
                     this.tiempoDescubierto[verticeAdyacente] = this.tiempo;
                     this.low[verticeAdyacente] = this.tiempoDescubierto[verticeAdyacente];
 
-                    verticeEntroAlStack[verticeAdyacente] = true;
-                    this.predecesor[verticeAdyacente] = verticePredecesor;
-                    this.cantidadHijos[verticePredecesor]++;
-
+                    this.predecesor[verticeAdyacente] = verticeAnalizado;
+                    this.cantidadHijos[verticeAnalizado]++;
                 }
                 else {
-                    //Si el que saque es diferente al predecesor del que estoy analizando y el adyacente YA entro en el stack
-                    if ( verticeAdyacente != this.predecesor[verticePredecesor] ) {
-                        this.low[verticePredecesor] = Math.min(this.low[verticePredecesor], this.tiempoDescubierto[verticeAdyacente]);
+                    //Si el adyacente ya fue visitado y es diferente al predecesor del que estoy analizando
+                    //Si ese adyacente YA fue visitado, entonces me interesa comparar con su tiempoDescubierto
+                    if ( verticeAdyacente != this.predecesor[verticeAnalizado] ) {
+                        this.low[verticeAnalizado] = Math.min(this.low[verticeAnalizado], this.tiempoDescubierto[verticeAdyacente]);
                     }
                 }
             }
             else {
-                //Si no tiene hijos, entonces lo desapilo (y hago otras cosas)
+                //Si ya no tiene adyacentes, entonces lo desapilo (o sea, que no tiene mas vertices para visitar)
                 int verticeVisitado = this.stackDFS.pop();
-                this.verticeVisitado[verticeVisitado] = true; //Lo considero visitado cuando lo poppeo del stack
 
+                //Si NO es raiz
                 if (this.predecesor[verticeVisitado] != -1 ) {
-                    this.low[this.predecesor[verticeVisitado]] = Math.min(this.low[verticeVisitado], this.low[this.predecesor[verticeVisitado]]);
+                    //Saco el predecesor del vertice que estoy analizando y comparo los lows para saber si hay que actualizar el low del verticePredecesor y si es pto de art
+                    int verticePredecesor = this.predecesor[verticeVisitado];
+                    this.low[verticePredecesor] = Math.min(this.low[verticeVisitado], this.low[verticePredecesor]);
 
-                    if ( (this.low[verticeVisitado] >= this.tiempoDescubierto[this.predecesor[verticeVisitado]]) &&
-                         ( ( this.predecesor[this.predecesor[verticeVisitado]] != -1) ) ) {
-                        this.puntosDeArticulacion.add(this.predecesor[verticeVisitado]);
+                    if ( (this.low[verticeVisitado] >= this.tiempoDescubierto[verticePredecesor]) &&
+                         ( ( this.predecesor[verticePredecesor ] != -1) ) ) {
+                        this.puntosDeArticulacion.add(verticePredecesor);
                     }
                 }
                 else {
-                    //Es raiz y tiene mas de un hijo
+                    //Es raiz y tiene mas de un hijo -> es pto de art
                     if ( this.cantidadHijos[verticeVisitado] > 1 ) {
                         this.puntosDeArticulacion.add(verticeVisitado);
                     }
@@ -190,6 +188,10 @@ public class Tarjan {
         }
 
     }
+
+
+
+
 
 
 
@@ -230,6 +232,11 @@ public class Tarjan {
         }
         System.out.println("]");
     }
+
+
+
+
+
 
 
 
