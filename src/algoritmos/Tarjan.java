@@ -60,7 +60,7 @@ public class Tarjan {
 
         for (int v = 0; v < this.grafo.getCantidadVertices(); v++) {
             if (!this.verticeVisitado[v]) {
-                this.DFSRecursivo(v);
+                //this.DFSRecursivo(v);
                 this.DFSIterativo(v);
             }
         }
@@ -146,27 +146,24 @@ public class Tarjan {
             LinkedList<Integer> verticesAdyacentes = this.grafo.getVerticesAdyacentesA(verticePredecesor);
 
             if (!verticesAdyacentes.isEmpty()) {
-                if (!this.verticeVisitado[verticePredecesor]) {
+                int verticeAdyacente = verticesAdyacentes.pollFirst();
 
+                if (!verticeEntroAlStack[verticeAdyacente]) {
+                    this.stackDFS.push(verticeAdyacente);
 
-                    int verticeAdyacente = verticesAdyacentes.pollFirst();
-                    if (!verticeEntroAlStack[verticeAdyacente]) {
-                        this.stackDFS.push(verticeAdyacente);
+                    this.tiempo++;
+                    this.tiempoDescubierto[verticeAdyacente] = this.tiempo;
+                    this.low[verticeAdyacente] = this.tiempoDescubierto[verticeAdyacente];
 
-                        this.tiempo++;
-                        this.tiempoDescubierto[verticeAdyacente] = this.tiempo;
-                        this.low[verticeAdyacente] = this.tiempoDescubierto[verticeAdyacente];
+                    verticeEntroAlStack[verticeAdyacente] = true;
+                    this.predecesor[verticeAdyacente] = verticePredecesor;
+                    this.cantidadHijos[verticePredecesor]++;
 
-                        verticeEntroAlStack[verticeAdyacente] = true;
-                        this.predecesor[verticeAdyacente] = verticePredecesor;
-                        this.cantidadHijos[verticePredecesor]++;
-
-                    }
-                    else {
-                        //Si el que saque es diferente al predecesor del que estoy analizando y el adyacente YA entro en el stack
-                        if ( verticeAdyacente != this.predecesor[verticePredecesor] ) {
-                            this.low[verticePredecesor] = Math.min(this.low[verticePredecesor], this.tiempoDescubierto[verticeAdyacente]);
-                        }
+                }
+                else {
+                    //Si el que saque es diferente al predecesor del que estoy analizando y el adyacente YA entro en el stack
+                    if ( verticeAdyacente != this.predecesor[verticePredecesor] ) {
+                        this.low[verticePredecesor] = Math.min(this.low[verticePredecesor], this.tiempoDescubierto[verticeAdyacente]);
                     }
                 }
             }
