@@ -64,6 +64,7 @@ public class AsignacionGenerica {
         }
 
 
+        System.out.println("Fin transformacion");
 
         MatrimoniosEstables matrimonios = new MatrimoniosEstables(hombres, mujeres);
         List<Pair<Integer, Integer>> compromisos = matrimonios.getCompromisos();
@@ -76,7 +77,7 @@ public class AsignacionGenerica {
 
         System.out.println();
         System.out.println("Asignaciones:");
-        System.out.println(this.getAsignaciones());
+        //System.out.println(this.getAsignaciones());
     }
 
     public List<Pair<Integer, Integer>> getAsignaciones() {

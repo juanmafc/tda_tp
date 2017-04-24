@@ -65,12 +65,19 @@ public class Main {
         for (int i = 1; i <7; i++) {
 
             String filePath = "src/algoritmos/KosarajuFiles/d" + i + ".txt";
-
             GrafoDirigido grafo = parser.parsearGrafoDirigido(filePath);
 
+            long startTime = System.nanoTime();
+
             Kosaraju kosaraju = new Kosaraju(grafo);
-            System.out.println("Cantidad de CFCs:" + kosaraju.getCantidadCFC() );
-            kosaraju.printCFCs();
+            System.out.println("Cantidad de CFCs en el archivo d" + i + ":" + kosaraju.getCantidadCFC() );
+            //kosaraju.printCFCs();
+
+            long endTime = System.nanoTime();
+            double duration = (endTime - startTime);  //divide by 1000000 to get milliseconds.
+            System.out.println("Duracion: " + duration/1000000000 + " segundos");
+            System.out.println();
+
         }
 
 
@@ -83,10 +90,18 @@ public class Main {
         for (int i = 1; i <7; i++) {
             String filePath = "src/algoritmos/TarjanFiles/g" + i + ".txt";
 
-            GrafoNoDirigido grafo = parser.parsearGrafoNoDirigido(filePath);
+            long startTime = System.nanoTime();
 
-            Tarjan dfs = new Tarjan(grafo);
-            System.out.println("Ptos de articulacion: " + dfs.getPuntosDeArticulacion());
+            GrafoNoDirigido grafo = parser.parsearGrafoNoDirigido(filePath);
+            Tarjan tarjan = new Tarjan(grafo);
+            System.out.println("Cantidad de puntos de articulacion en el archivo g" + i + ":" + tarjan.getPuntosDeArticulacion().size() );
+            //System.out.println("Ptos de articulacion: " + dfs.getPuntosDeArticulacion());
+
+            long endTime = System.nanoTime();
+            double duration = (endTime - startTime);  //divide by 1000000 to get milliseconds.
+            System.out.println("Duracion: " + duration/1000000000 + " segundos");
+            System.out.println();
+
         }
     }
 
@@ -129,7 +144,8 @@ public class Main {
         int[] vacantes = asignarVacantes(cantEstudiantes, cantHospitales);
 
 
-        escribirArchivo(estudiantes, hospitales, vacantes);
+        //escribirArchivo(estudiantes, hospitales, vacantes);
+        System.out.println("FIN inicializacion");
         new AsignacionGenerica(estudiantes,hospitales, vacantes);
 
     }
