@@ -1,13 +1,13 @@
 package algoritmos;
 
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
 
     public static void main(String[] args){
 
         Boolean done = new Boolean (false);
-        Scanner scanner =new Scanner (System.in);
+        Scanner scanner = new Scanner (System.in);
         while(!done)
         {
             System.out.println("Elija que ejercicio correr:" );
@@ -22,14 +22,17 @@ public class Main {
             switch (input) {
                 case "AR":
 
-                    int aplicantes = Integer.parseInt( linea.next() );
+                    int estudiantes = Integer.parseInt( linea.next() );
                     int hospitales = Integer.parseInt( linea.next() );
+
 
                     /*
 
                     Acá hay que poner la función tuya, juampa
 
                      */
+
+                    asignacionGenerica(estudiantes, hospitales);
 
                     break;
 
@@ -83,6 +86,59 @@ public class Main {
             Tarjan dfs = new Tarjan(grafo);
             System.out.println("Ptos de articulacion: " + dfs.getPuntosDeArticulacion());
         }
+    }
+
+
+
+    private static void asignacionGenerica(int cantEstudiantes, int cantHospitales) {
+
+        int[][] estudiantes = new int[cantEstudiantes][cantHospitales];
+        int[][] hospitales = new int[cantHospitales][cantEstudiantes];
+        int[] vacantes = new int[cantHospitales];
+
+        //Una lista con todos los hospitales
+        List<Integer> rankings = new ArrayList<>();
+        for (int i = 0; i < cantHospitales; i++) {
+            rankings.add(i);
+        }
+
+        //Por cada estudiante se mezcla la lista de hospitales en un orden random y se copia la lista a la lista de preferencia de ese estudiante
+        for(int j = 0; j < cantEstudiantes; j++){
+            Collections.shuffle(rankings);
+            for(int k = 0; k < cantHospitales; k++){
+                estudiantes[j][k] = rankings.get(k);
+            }
+        }
+
+        //Se hace lo mismo con los hospitales y su lista de merito
+        List<Integer> examenes = new ArrayList<>();
+        for (int i = 0; i < cantEstudiantes; i++) {
+            examenes.add(i);
+        }
+
+        for(int j = 0; j < cantHospitales; j++){
+            Collections.shuffle(examenes);
+            for(int k = 0; k < cantEstudiantes; k++){
+                hospitales[j][k] = examenes.get(k);
+            }
+        }
+
+
+        //Se asignan tantas vacantes como estudiantes haya
+        int cantVacantes =  cantEstudiantes;
+        for (int i = 0; i < hospitales.length; i++) {
+            if (i + 1 == hospitales.length) {
+                vacantes[i] = cantVacantes;
+            } else {
+                Random rand = new Random();
+                Integer randomInt = rand.nextInt(cantVacantes);
+                vacantes[i] = randomInt;
+                cantVacantes = cantVacantes - randomInt;
+
+            }
+        }
+
+        new AsignacionGenerica(estudiantes,hospitales, vacantes);
     }
 
 
