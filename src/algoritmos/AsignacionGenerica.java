@@ -36,7 +36,6 @@ public class AsignacionGenerica {
         for (int i = 1; i < m; i++) {
             offsetBaseHospital[i] = offsetBaseHospital[i-1] + vacantes[i-1];
         }
-        //TODO: ESTO NO LO HARIA O(N*M*V) ? o debido a que la sumatoria de las vacantes es = n seria O(N^2)
         for (int e = 0; e < estudiantes.length; e++) {
             int indiceHombres = 0;
             for (int i = 0; i < m; i++) {
@@ -64,23 +63,6 @@ public class AsignacionGenerica {
             }
         }
 
-
-        System.out.println("Hombres:");
-        for (int i = 0; i < n; i++) {
-            System.out.println();
-            for (int j = 0; j < n; j++) {
-                System.out.print(hombres[i][j] + "  ");
-            }
-        }
-
-        System.out.println();
-        System.out.println("Mujeres:");
-        for (int i = 0; i < n; i++) {
-            System.out.println();
-            for (int j = 0; j < n; j++) {
-                System.out.print(mujeres[i][j] + "  ");
-            }
-        }
 
 
         MatrimoniosEstables matrimonios = new MatrimoniosEstables(hombres, mujeres);

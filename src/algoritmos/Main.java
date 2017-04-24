@@ -1,5 +1,7 @@
 package algoritmos;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.*;
 
 public class Main {
@@ -94,7 +96,6 @@ public class Main {
 
         int[][] estudiantes = new int[cantEstudiantes][cantHospitales];
         int[][] hospitales = new int[cantHospitales][cantEstudiantes];
-        int[] vacantes = new int[cantHospitales];
 
         //Una lista con todos los hospitales
         List<Integer> rankings = new ArrayList<>();
@@ -125,22 +126,72 @@ public class Main {
 
 
         //Se asignan tantas vacantes como estudiantes haya
-        int cantVacantes =  cantEstudiantes;
-        for (int i = 0; i < hospitales.length; i++) {
-            if (i + 1 == hospitales.length) {
-                vacantes[i] = cantVacantes;
-            } else {
-                Random rand = new Random();
-                Integer randomInt = rand.nextInt(cantVacantes);
-                vacantes[i] = randomInt;
-                cantVacantes = cantVacantes - randomInt;
+        int[] vacantes = asignarVacantes(cantEstudiantes, cantHospitales);
 
-            }
-        }
 
+        escribirArchivo(estudiantes, hospitales, vacantes);
         new AsignacionGenerica(estudiantes,hospitales, vacantes);
+
     }
 
+    //Asigna las vacantes para cada hospital de forma aleatoria, buscando que no sea muy dispareja la distribucion
+    public static int[] asignarVacantes(int vacantes,int cantHospitales){
+
+        ArrayList<Integer> lista = new ArrayList<Integer>();
+        int[] ret = new int[cantHospitales];
+        Random rand = new Random();
+        int min = 0;
+        lista.add(min);
+        lista.add(vacantes);
+
+
+
+        for(int i = 1;i<cantHospitales;i++){
+            int n = rand.nextInt(vacantes) + min;
+            lista.add(n);
+        }
+        Collections.sort(lista);
+        for(int i = 0;i<lista.size()-1;i++){
+            int vacantesDelHospital=lista.get(i+1)-lista.get(i);
+            ret[i] = vacantesDelHospital;
+        }
+
+        return ret;
+    }
+
+    private static void escribirArchivo(int[][] estudiantes, int[][] hospitales, int[] vacantes) {
+
+        try{
+            PrintWriter writer = new PrintWriter("output.txt", "UTF-8");
+            writer.println("Cantidad de estudiantes: " + estudiantes.length);
+            for(int i = 0; i < estudiantes.length; i++){
+                for(int j = 0; j < hospitales.length; j++){
+                    writer.print(estudiantes[i][j] + " ");
+                }
+                writer.println(" ");
+            }
+            writer.println(" ");
+
+            writer.println("Cantidad de hospitales: " + hospitales.length);
+            for(int i = 0; i < hospitales.length; i++){
+                for(int j = 0; j < estudiantes.length; j++){
+                    writer.print(hospitales[i][j] + " ");
+                }
+                writer.println(" ");
+            }
+            writer.println(" ");
+
+
+            writer.print("Vacantes por hospital: ");
+
+            for(int i = 0; i< hospitales.length; i++){
+                writer.print(vacantes[i] + " ");
+            }
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 }
