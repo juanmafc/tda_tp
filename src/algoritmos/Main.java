@@ -3,7 +3,7 @@ package algoritmos;
 public class Main {
 
     public static void main(String[] args){
-
+/*
         pruebaGrafo1();
         pruebaGrafo2();
         pruebaGrafo3();
@@ -29,36 +29,87 @@ public class Main {
         pruebaCFC3();
         pruebaCFC4();
         pruebaCFC5();
-
+*/
+    asignacionDeResidencias();
     }
 
 
-    private static void pruebaCFC5() {
-        GrafoDirigido grafo = new GrafoDirigido(10);
+    private static void asignacionDeResidencias(){
 
-        grafo.agregarArista(0, 1);
-        grafo.agregarArista(0, 3);
-        grafo.agregarArista(1, 2);
-        grafo.agregarArista(1, 4);
-        grafo.agregarArista(2, 0);
-        grafo.agregarArista(2, 6);
-        grafo.agregarArista(3, 2);
-        grafo.agregarArista(4, 6);
-        grafo.agregarArista(4, 5);
-        grafo.agregarArista(5, 6);
-        grafo.agregarArista(5, 7);
-        grafo.agregarArista(5, 8);
-        grafo.agregarArista(5, 9);
-        grafo.agregarArista(6, 4);
-        grafo.agregarArista(7, 9);
-        grafo.agregarArista(8, 9);
-        grafo.agregarArista(9, 8);
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Ingrese cantidad de estudiantes");
+        Integer cantEstudiantes = scanner.nextInt();
+        System.out.println("Ingrese cantidad de hospitales");
+        Integer cantHospitales = scanner.nextInt();
 
 
-        Kosaraju kosaraju = new Kosaraju(grafo);
-        System.out.println("Cantidad de CFCs (4) " + kosaraju.getCantidadCFC() );
-        System.out.println(" (0, 1, 2, 3) (4, 5, 6) (7) (8, 9)");
-        kosaraju.printCFCs();
+
+        int[][] estudiantes = new int[cantEstudiantes][cantHospitales];
+        int[][] hospitales = new int[cantHospitales][cantEstudiantes];
+        int[] vacantes = new int[cantHospitales];
+
+        List<Integer> rankings = new ArrayList<>();
+        for (int i = 0; i < cantHospitales; i++) {
+            rankings.add(i);
+        }
+
+        for(int j = 0; j < cantEstudiantes; j++){
+            Collections.shuffle(rankings);
+            for(int k = 0; k < cantHospitales; k++){
+                estudiantes[j][k] = rankings.get(k);
+            }
+        }
+
+        List<Integer> examenes = new ArrayList<>();
+        for (int i = 0; i < cantEstudiantes; i++) {
+            examenes.add(i);
+        }
+
+        for(int j = 0; j < cantHospitales; j++){
+            Collections.shuffle(examenes);
+            for(int k = 0; k < cantEstudiantes; k++){
+                hospitales[j][k] = examenes.get(k);
+            }
+        }
+
+
+        System.out.println("Hombres:");
+        for (int i = 0; i < cantEstudiantes; i++) {
+            System.out.println();
+            for (int j = 0; j < cantHospitales; j++) {
+                System.out.println(estudiantes[i][j] + "  ");
+            }
+        }
+
+        System.out.println();
+        System.out.println("Mujeres:");
+        for (int i = 0; i < cantHospitales; i++) {
+            System.out.println();
+            for (int j = 0; j < cantEstudiantes; j++) {
+                System.out.println(hospitales[i][j] + "  ");
+            }
+        }
+        System.out.println();
+
+
+
+        int cantVacantes =  cantEstudiantes;
+        for (int i = 0; i < hospitales.length; i++) {
+            if (i + 1 == hospitales.length) {
+                vacantes[i] = cantVacantes;
+            } else {
+                Random rand = new Random();
+                Integer randomInt = rand.nextInt(cantVacantes);
+                vacantes[i] = randomInt;
+                cantVacantes = cantVacantes - randomInt;
+
+            }
+        }
+
+
+       new AsignacionGenerica(estudiantes,hospitales, vacantes);
+
     }
 
 
