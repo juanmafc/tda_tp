@@ -70,6 +70,8 @@ public class Main {
         grafo.colapsar(1,3);
         grafo.printGrafo();
 */
+
+/*
         GrafoNoDirigido grafo = new GrafoNoDirigido(3);
         grafo.agregarArista(0,1);
         grafo.agregarArista(0,2);
@@ -78,7 +80,36 @@ public class Main {
         System.out.println("------------");
         grafo.colapsar(0,1);
         grafo.printGrafo();
+*/
 
+
+        GrafoNoDirigido grafo = new GrafoNoDirigido(5);
+        grafo.agregarArista(0,1);
+        grafo.agregarArista(0,2);
+        grafo.agregarArista(0,4);
+
+        grafo.agregarArista(1,2);
+        grafo.agregarArista(1,4);
+        grafo.agregarArista(1,4);
+
+        grafo.agregarArista(2,3);
+        grafo.agregarArista(2,4);
+
+
+        grafo.printGrafo();
+
+        System.out.println("------------");
+        grafo.colapsar(1,4);
+        grafo.printGrafo();
+
+        System.out.println("------------");
+        grafo.colapsar(2,3);
+        grafo.printGrafo();
+
+        System.out.println("------------");
+        grafo.colapsar(2,1);
+        grafo.printGrafo();
+        
     }
 /*
     public static void main(String[] args){
