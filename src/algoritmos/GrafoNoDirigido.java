@@ -50,7 +50,8 @@ public class GrafoNoDirigido extends  GrafoDirigido {
                         //Pasa con un -1
                         listaDeAdyacenciaColapsada[i].getValue().add(verticeAdyacente - 1);
                     }
-                    if (verticeAdyacente == indiceMaximo) {
+                    if ( (verticeAdyacente == indiceMaximo) && (i != indiceMinimo) ){
+                        //Si el indice i que estoy analizando tiene una arista al indice maximo entonce esa arista no se agregar, porque colapso
                         //Si el indice adyacente es igual al indicemaximo, como colapso al indice minimo, pongo este ultimo como adyacente
                         listaDeAdyacenciaColapsada[i].getValue().add(indiceMinimo);
                     }
@@ -81,7 +82,8 @@ public class GrafoNoDirigido extends  GrafoDirigido {
         listaDeAdyacenciaColapsada[indiceMinimo].getKey().addAll(this.aristas[indiceMaximo].getKey());
         LinkedList<Integer> listaDeAdyacencia = this.aristas[indiceMaximo].getValue();
         for (int verticeAdyacente : listaDeAdyacencia) {
-            if (verticeAdyacente < indiceMaximo){
+            if ( (verticeAdyacente < indiceMaximo) && (verticeAdyacente != indiceMinimo)){
+                //Si es igual al indice minimo entonces esa arista queda borrada porque colapso
                 //Pasa igual
                 listaDeAdyacenciaColapsada[indiceMinimo].getValue().add(verticeAdyacente);
             }
