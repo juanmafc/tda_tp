@@ -82,7 +82,7 @@ public class Main {
         grafo.printGrafo();
 */
 
-
+/*
         GrafoNoDirigido grafo = new GrafoNoDirigido(5);
         grafo.agregarArista(0,1);
         grafo.agregarArista(0,2);
@@ -116,7 +116,21 @@ public class Main {
 
         System.out.println("------------");
         System.out.println("Aristas " + grafo.getListaDeAristas());
+*/
 
+        GrafoNoDirigido grafo = new GrafoNoDirigido(5);
+        grafo.agregarArista(0,1);
+        grafo.agregarArista(0,2);
+        grafo.agregarArista(0,4);
+
+        grafo.agregarArista(1,2);
+        grafo.agregarArista(1,4);
+        grafo.agregarArista(1,4);
+
+        grafo.agregarArista(2,3);
+        grafo.agregarArista(2,4);
+
+        Karger karger = new Karger(grafo);
     }
 /*
     public static void main(String[] args){

@@ -2,9 +2,7 @@ package algoritmos;
 
 import javafx.util.Pair;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by User on 11/04/2017.
@@ -101,9 +99,9 @@ public class GrafoNoDirigido extends  GrafoDirigido {
     }
 
 
-    public LinkedList<Pair<Integer,Integer>> getListaDeAristas() {
+    public List<Pair<Integer,Integer>> getListaDeAristas() {
 
-        LinkedList<Pair<Integer, Integer>> listaDeAristas = new LinkedList<>();
+        List<Pair<Integer, Integer>> listaDeAristas = new ArrayList<>();
 
         for (int vertice = 0; vertice < this.aristas.length; vertice++) {
             for (int verticeAdyacente : this.aristas[vertice].getValue() ) {
