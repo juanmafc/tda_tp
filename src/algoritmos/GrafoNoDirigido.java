@@ -14,6 +14,10 @@ public class GrafoNoDirigido extends  GrafoDirigido {
         super(cantidadVertices);
     }
 
+    public GrafoNoDirigido(GrafoNoDirigido grafoOriginal) {
+        super(grafoOriginal);
+    }
+
     public void agregarArista(int origen, int destino) {
         this.aristas[origen].getValue().add(destino);
         this.aristas[destino].getValue().add(origen);
@@ -114,5 +118,9 @@ public class GrafoNoDirigido extends  GrafoDirigido {
         }
 
         return listaDeAristas;
+    }
+
+    public Set<Integer> getVerticesRepresentadosPor(int vertice) {
+        return this.aristas[vertice].getKey();
     }
 }

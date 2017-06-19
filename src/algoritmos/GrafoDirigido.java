@@ -10,7 +10,6 @@ import java.util.Set;
 public class GrafoDirigido {
 
     protected int cantidadVertices;
-    //protected LinkedList<Integer>[] aristas;
     protected Pair<Set<Integer>,LinkedList<Integer>>[] aristas;
     protected int cantidadAristas;
 
@@ -26,6 +25,12 @@ public class GrafoDirigido {
             this.aristas[i] = new Pair(verticesQueRepresenta, new LinkedList<>() );
         }
 
+    }
+
+    public GrafoDirigido(GrafoNoDirigido grafoOriginal) {
+        this.cantidadAristas = grafoOriginal.cantidadAristas;
+        this.aristas = grafoOriginal.aristas;
+        this.cantidadVertices = grafoOriginal.cantidadVertices;
     }
 
     public void agregarArista(int origen, int destino) {
