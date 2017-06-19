@@ -99,4 +99,22 @@ public class GrafoNoDirigido extends  GrafoDirigido {
 
         this.aristas = listaDeAdyacenciaColapsada;
     }
+
+
+    public LinkedList<Pair<Integer,Integer>> getListaDeAristas() {
+
+        LinkedList<Pair<Integer, Integer>> listaDeAristas = new LinkedList<>();
+
+        for (int vertice = 0; vertice < this.aristas.length; vertice++) {
+            for (int verticeAdyacente : this.aristas[vertice].getValue() ) {
+                if (vertice <= verticeAdyacente) {
+                    //Solo se agrega la arista si el vertice inicial es mas chico que el final, esto es para evitar repetir aristas
+                    //Por ejemplo 3 --- 5 si NO estuviera este if, se agregarian (3,5), (5,3) en vez de solamente una de las dos
+                    listaDeAristas.add(new Pair<>(vertice, verticeAdyacente));
+                }
+            }
+        }
+
+        return listaDeAristas;
+    }
 }

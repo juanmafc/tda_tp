@@ -97,19 +97,26 @@ public class Main {
 
 
         grafo.printGrafo();
+        System.out.println("Aristas " + grafo.getListaDeAristas());
 
         System.out.println("------------");
         grafo.colapsar(1,4);
         grafo.printGrafo();
+        System.out.println("Aristas " + grafo.getListaDeAristas());
 
         System.out.println("------------");
         grafo.colapsar(2,3);
         grafo.printGrafo();
+        System.out.println("Aristas " + grafo.getListaDeAristas());
 
         System.out.println("------------");
         grafo.colapsar(2,1);
         grafo.printGrafo();
-        
+        System.out.println("Aristas " + grafo.getListaDeAristas());
+
+        System.out.println("------------");
+        System.out.println("Aristas " + grafo.getListaDeAristas());
+
     }
 /*
     public static void main(String[] args){
