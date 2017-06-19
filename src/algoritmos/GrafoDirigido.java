@@ -1,28 +1,35 @@
 package algoritmos;
 
+import javafx.util.Pair;
+
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Set;
 
 
 public class GrafoDirigido {
 
     protected int cantidadVertices;
-    protected LinkedList<Integer>[] aristas;
+    //protected LinkedList<Integer>[] aristas;
+    protected Pair<Set<Integer>,LinkedList<Integer>>[] aristas;
     protected int cantidadAristas;
 
 
     public GrafoDirigido(int cantidadVertices) {
         this.cantidadVertices = cantidadVertices;
         this.cantidadAristas = 0;
-        this.aristas = new LinkedList[cantidadVertices];
+        this.aristas = new Pair[cantidadVertices];
 
         for (int i = 0; i < cantidadVertices; i++) {
-            this.aristas[i] = new LinkedList<>();
+            Set<Integer> verticesQueRepresenta = new HashSet<>();
+            verticesQueRepresenta.add(i);
+            this.aristas[i] = new Pair(verticesQueRepresenta, new LinkedList<>() );
         }
 
     }
 
     public void agregarArista(int origen, int destino) {
-        this.aristas[origen].add(destino);
+        this.aristas[origen].getValue().add(destino);
         this.cantidadAristas++;
     }
 
@@ -36,30 +43,14 @@ public class GrafoDirigido {
 
 
     public  LinkedList<Integer> getVerticesAdyacentesA(int vertice) {
-        return this.aristas[vertice];
+        return this.aristas[vertice].getValue();
     }
 
-
-    public  GrafoDirigido getGrafoTraspuesto() {
-        GrafoDirigido complemento = new GrafoDirigido(this.getCantidadVertices());
-
-        for (int u = 0; u < this.getCantidadVertices(); u++) {
-            for (int v : this.aristas[u] ) {
-                complemento.agregarArista(v, u);
-            }
-        }
-        return complemento;
-    }
 
     public void printGrafo() {
-        System.out.println("Vertices: " + this.getCantidadVertices());
-        System.out.println("Aristas: " + this.getCantidadAristas());
-        for (int i = 0; i < this.getCantidadVertices(); i++) {
-            System.out.println(i + "-->" + this.getVerticesAdyacentesA(i));
+        for (int i = 0; i < this.aristas.length; i++) {
+            //System.out.println(i + "-->" + this.getVerticesAdyacentesA(i));
+            System.out.println(i + "-->" + this.aristas[i]);
         }
-    }
-
-    public void elimiarHijosDe(int verticePredecesor) {
-        this.aristas[verticePredecesor] = new LinkedList<>();
     }
 }

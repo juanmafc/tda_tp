@@ -10,14 +10,14 @@ public class Main {
 
     public static void main(String[] args) {
 
-        
+/*
         Set<Integer> numeros = new LinkedHashSet<>();
         numeros.add(104);
         numeros.add(102);
         numeros.add(201);
         numeros.add(101);
         SubsetSumAproximada subsetSum = new SubsetSumAproximada(numeros, 308, 0.40);
-
+*/
 
 /*
         int[] valores = new int[7];
@@ -43,7 +43,7 @@ public class Main {
         predicciones.getMejorParDeDiasHastaElDia(4);
 */
 
-
+/*
         int[] valores = new int[5];
         valores[0] = 9;
         valores[1] = 7;
@@ -57,6 +57,27 @@ public class Main {
         int diaOptimoDeVenta = parDeDiasOptimo.getValue();
         int gananciaOptima = predicciones.getMejorGananciaHastaElDia(ultimoDia);
         System.out.println("Lo mejor es comprar el dia " + diaOptimoDeCompra + " a " + valores[diaOptimoDeCompra] + "$ y vender al dia " + diaOptimoDeVenta + " a " + valores[diaOptimoDeVenta] + "$ para tener una ganancia de " + gananciaOptima + "$");
+*/
+
+/*
+        GrafoNoDirigido grafo = new GrafoNoDirigido(5);
+        grafo.agregarArista(0,1);
+        grafo.agregarArista(0,4);
+        grafo.agregarArista(1,2);
+        grafo.agregarArista(2,3);
+        grafo.agregarArista(3,4);
+
+        grafo.colapsar(1,3);
+        grafo.printGrafo();
+*/
+        GrafoNoDirigido grafo = new GrafoNoDirigido(3);
+        grafo.agregarArista(0,1);
+        grafo.agregarArista(0,2);
+
+        grafo.printGrafo();
+        System.out.println("------------");
+        grafo.colapsar(0,1);
+        grafo.printGrafo();
 
     }
 /*
