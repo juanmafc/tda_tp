@@ -118,6 +118,8 @@ public class Main {
         System.out.println("Aristas " + grafo.getListaDeAristas());
 */
 
+
+/*
         GrafoNoDirigido grafo = new GrafoNoDirigido(5);
         grafo.agregarArista(0,1);
         grafo.agregarArista(0,2);
@@ -129,6 +131,47 @@ public class Main {
 
         grafo.agregarArista(2,3);
         grafo.agregarArista(2,4);
+
+        Karger karger = new Karger(grafo);
+*/
+
+/*
+        GrafoNoDirigido grafo = new GrafoNoDirigido(8);
+        grafo.agregarArista(0,1);
+        grafo.agregarArista(0,2);
+        grafo.agregarArista(0,3);
+        grafo.agregarArista(0,6);
+
+        grafo.agregarArista(1,4);
+        grafo.agregarArista(1,5);
+        grafo.agregarArista(1,5);
+        grafo.agregarArista(1,7);
+
+        grafo.agregarArista(2,3);
+        grafo.agregarArista(2,6);
+        grafo.agregarArista(2,6);
+
+        grafo.agregarArista(3,4);
+        grafo.agregarArista(3,6);
+
+        grafo.agregarArista(4,7);
+
+        grafo.agregarArista(5,7);
+
+        grafo.agregarArista(6,7);
+
+        Karger karger = new Karger(grafo);
+*/
+
+        GrafoNoDirigido grafo = new GrafoNoDirigido(10);
+
+        for (int i = 0; i < 10; i++) {
+            for (int j = i; j < 10; j++) {
+                if (i != j) {
+                    grafo.agregarArista(i,j);
+                }
+            }
+        }
 
         Karger karger = new Karger(grafo);
     }
