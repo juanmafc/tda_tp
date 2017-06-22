@@ -162,18 +162,13 @@ public class Main {
 
         Karger karger = new Karger(grafo);
 */
+        int n = 10;
+        GrafoNoDirigido grafoConexo = GrafoConexoBuilder.build(n);
 
-        GrafoNoDirigido grafo = new GrafoNoDirigido(10);
-
-        for (int i = 0; i < 10; i++) {
-            for (int j = i; j < 10; j++) {
-                if (i != j) {
-                    grafo.agregarArista(i,j);
-                }
-            }
-        }
-
-        Karger karger = new Karger(grafo);
+        System.out.println(grafoConexo.getCantidadVertices());
+        System.out.println(grafoConexo.getCantidadAristas());
+        grafoConexo.printGrafo();
+        Karger karger = new Karger(grafoConexo);
     }
 /*
     public static void main(String[] args){
@@ -405,4 +400,38 @@ public class Main {
     }
 
 */
+    
+    public static class GrafoConexoBuilder{
+
+        public static GrafoNoDirigido build(Integer cantidadVertices){
+
+            Random rand = new Random();
+
+            GrafoNoDirigido grafoConexo = new GrafoNoDirigido(cantidadVertices);
+
+            for(int i = 0; i < cantidadVertices; i++) {
+                int u = rand.nextInt(i+1);
+                grafoConexo.agregarArista(u, i);
+            }
+            for(int j = 0; j < cantidadVertices; j++){
+                int u = rand.nextInt(cantidadVertices);
+                int v = rand.nextInt(cantidadVertices);
+
+                Boolean bot = grafoConexo.getVerticesAdyacentesA(v).contains(u) || u == v;
+                while(bot){
+                    v = rand.nextInt(cantidadVertices);
+                    LinkedList<Integer> resutl = grafoConexo.getVerticesAdyacentesA(v);
+                    Boolean bu2 = resutl.contains(u);
+                    Boolean bu3 = (v == u);
+                    bot = grafoConexo.getVerticesAdyacentesA(v).contains(u) || u == v;
+                }
+                grafoConexo.agregarArista(u, v);
+                System.out.println("cantidad de aristas: " + grafoConexo.getCantidadAristas());
+
+
+            }
+
+            return grafoConexo;
+        }
+    }
 }
