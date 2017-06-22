@@ -162,6 +162,15 @@ public class Main {
 
         Karger karger = new Karger(grafo);
 */
+        int n2 = 100;
+
+        SubSetSumBuilder sSSBuilder = new SubSetSumBuilder();
+
+        SubSet subset = sSSBuilder.build(n2);
+
+        System.out.println(subset.getSet());
+        System.out.println(subset.getT());
+
         int n = 10;
         GrafoNoDirigido grafoConexo = GrafoConexoBuilder.build(n);
 
@@ -170,6 +179,41 @@ public class Main {
         grafoConexo.printGrafo();
         Karger karger = new Karger(grafoConexo);
     }
+
+    public static class GrafoConexoBuilder{
+
+        public static GrafoNoDirigido build(Integer cantidadVertices){
+
+            Random rand = new Random();
+
+            GrafoNoDirigido grafoConexo = new GrafoNoDirigido(cantidadVertices);
+
+            for(int i = 0; i < cantidadVertices; i++) {
+                int u = rand.nextInt(i+1);
+                grafoConexo.agregarArista(u, i);
+            }
+            for(int j = 0; j < cantidadVertices; j++){
+                int u = rand.nextInt(cantidadVertices);
+                int v = rand.nextInt(cantidadVertices);
+
+                Boolean bot = grafoConexo.getVerticesAdyacentesA(v).contains(u) || u == v;
+                while(bot){
+                    v = rand.nextInt(cantidadVertices);
+                    LinkedList<Integer> resutl = grafoConexo.getVerticesAdyacentesA(v);
+                    Boolean bu2 = resutl.contains(u);
+                    Boolean bu3 = (v == u);
+                    bot = grafoConexo.getVerticesAdyacentesA(v).contains(u) || u == v;
+                }
+                grafoConexo.agregarArista(u, v);
+                System.out.println("cantidad de aristas: " + grafoConexo.getCantidadAristas());
+
+
+            }
+
+            return grafoConexo;
+        }
+    }
+
 /*
     public static void main(String[] args){
 
@@ -400,38 +444,4 @@ public class Main {
     }
 
 */
-    
-    public static class GrafoConexoBuilder{
-
-        public static GrafoNoDirigido build(Integer cantidadVertices){
-
-            Random rand = new Random();
-
-            GrafoNoDirigido grafoConexo = new GrafoNoDirigido(cantidadVertices);
-
-            for(int i = 0; i < cantidadVertices; i++) {
-                int u = rand.nextInt(i+1);
-                grafoConexo.agregarArista(u, i);
-            }
-            for(int j = 0; j < cantidadVertices; j++){
-                int u = rand.nextInt(cantidadVertices);
-                int v = rand.nextInt(cantidadVertices);
-
-                Boolean bot = grafoConexo.getVerticesAdyacentesA(v).contains(u) || u == v;
-                while(bot){
-                    v = rand.nextInt(cantidadVertices);
-                    LinkedList<Integer> resutl = grafoConexo.getVerticesAdyacentesA(v);
-                    Boolean bu2 = resutl.contains(u);
-                    Boolean bu3 = (v == u);
-                    bot = grafoConexo.getVerticesAdyacentesA(v).contains(u) || u == v;
-                }
-                grafoConexo.agregarArista(u, v);
-                System.out.println("cantidad de aristas: " + grafoConexo.getCantidadAristas());
-
-
-            }
-
-            return grafoConexo;
-        }
-    }
 }
