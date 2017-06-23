@@ -76,8 +76,7 @@ public class Main {
             while(grafoConexo.getCantidadAristas() != 2*cantidadVertices){
                 int u = rand.nextInt(cantidadVertices);
                 int v = rand.nextInt(cantidadVertices);
-                if(u == v) break;
-                grafoConexo.agregarArista(u,v);
+                if(u != v) grafoConexo.agregarArista(u,v);
             }
 
             return grafoConexo;
